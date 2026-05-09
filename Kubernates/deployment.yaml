@@ -26,6 +26,6 @@ spec:
 
       containers:
         - name: python-app
-          image: rawdaessamrou/python-app:latest
+          image: rawdaessamrou/python-app:9
           ports:
             - containerPort: 5000
