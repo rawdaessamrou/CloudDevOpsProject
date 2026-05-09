@@ -1,13 +1,11 @@
 def pushManifestChanges() {
-
     withCredentials([usernamePassword(
         credentialsId: 'github-credintials',
         usernameVariable: 'GIT_USER',
         passwordVariable: 'GIT_PASS'
     )]) {
-
         sh """
-            cd k8s-manifests
+            cd CloudDevOpsProject/Kubernates    // ✅ correct path
 
             git config user.email "rawdaessamrou@example.com"
             git config user.name "rawdaessamrou"
