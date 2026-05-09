@@ -5,13 +5,13 @@ def pushManifestChanges() {
         passwordVariable: 'GIT_PASS'
     )]) {
         sh """
-            cd CloudDevOpsProject/Kubernates    // ✅ correct path
+            cd CloudDevOpsProject/Kubernates
 
             git config user.email "rawdaessamrou@example.com"
             git config user.name "rawdaessamrou"
 
             git add .
-            git commit -m "Update image tag"
+            git commit -m "Update image tag to ${env.BUILD_NUMBER}"
 
             git push https://\$GIT_USER:\$GIT_PASS@github.com/rawdaessamrou/CloudDevOpsProject.git
         """
