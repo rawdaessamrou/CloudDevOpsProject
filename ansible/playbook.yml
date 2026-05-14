@@ -1,0 +1,9 @@
+---
+- name: Configure Jenkins server
+  hosts: all
+  become: yes
+
+  roles:
+    - java
+    - jenkins
+    - packages

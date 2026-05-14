@@ -1,0 +1,43 @@
+---
+- name: Create keyrings directory
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Import Jenkins GPG key from keyserver
+  ansible.builtin.shell:
+    cmd: |
+      gpg --keyserver keyserver.ubuntu.com --recv-keys 7198F4B714ABFC68
+      gpg --export 7198F4B714ABFC68 > /etc/apt/keyrings/jenkins.gpg
+    creates: /etc/apt/keyrings/jenkins.gpg
+
+- name: Add Jenkins apt repository
+  ansible.builtin.copy:
+    content: "deb [signed-by=/etc/apt/keyrings/jenkins.gpg] https://pkg.jenkins.io/debian-stable binary/\n"
+    dest: /etc/apt/sources.list.d/jenkins.list
+    mode: '0644'
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: yes
+
+- name: Install Jenkins
+  ansible.builtin.apt:
+    name: jenkins
+    state: present
+
+- name: Start and enable Jenkins service
+  ansible.builtin.service:
+    name: jenkins
+    state: started
+    enabled: yes
+
+- name: Get initial admin password
+  ansible.builtin.command: cat /var/lib/jenkins/secrets/initialAdminPassword
+  register: jenkins_password
+  changed_when: false
+
+- name: Show initial admin password
+  ansible.builtin.debug:
+    msg: "Jenkins initial password: {{ jenkins_password.stdout }}"

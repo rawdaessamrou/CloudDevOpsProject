@@ -1,19 +1,16 @@
 def pushManifestChanges() {
     withCredentials([usernamePassword(
-        credentialsId: 'github-credintials',
+        credentialsId: 'github-credentials',
         usernameVariable: 'GIT_USER',
         passwordVariable: 'GIT_PASS'
     )]) {
         sh """
-            cd CloudDevOpsProject/Kubernates
-
+            cd CloudDevOpsProject
             git config user.email "rawdaessamrou@example.com"
             git config user.name "rawdaessamrou"
-
-            git add .
-            git commit -m "Update image tag to ${env.BUILD_NUMBER}"
-
-            git push https://\$GIT_USER:\$GIT_PASS@github.com/rawdaessamrou/CloudDevOpsProject.git
+            git add kubernetes/deployment.yaml
+            git commit -m "ci: update image tag to ${BUILD_NUMBER}" || true
+            git push https://\$GIT_USER:\$GIT_PASS@github.com/rawdaessamrou/CloudDevOpsProject.git HEAD:main
         """
     }
 }

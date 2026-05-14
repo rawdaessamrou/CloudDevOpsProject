@@ -3,19 +3,16 @@ def buildImage(String imageName) {
 }
 
 def scanImage(String imageName) {
-    sh "trivy image ${imageName}"
+    sh "trivy image --exit-code 0 ${imageName}"
 }
 
 def pushImage(String imageName) {
-
-    withCredentials([usernamePassword(
-        credentialsId: 'docker-credentials',
-        usernameVariable: 'DOCKER_USER',
-        passwordVariable: 'DOCKER_PASS'
-    )]) {
-
+    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+        credentialsId: 'aws-credentials']]) {
         sh """
-            echo \$DOCKER_PASS | docker login -u \$DOCKER_USER --password-stdin
+            aws ecr get-login-password --region us-east-1 | \
+            docker login --username AWS \
+            --password-stdin 781978598486.dkr.ecr.us-east-1.amazonaws.com
             docker push ${imageName}
         """
     }

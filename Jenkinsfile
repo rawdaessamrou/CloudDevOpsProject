@@ -1,12 +1,15 @@
-@Library('CloudDevOpsProject') _
+@Library('my-shared-library') _
 
 pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = "rawdaessamrou/python-app"
-        IMAGE_TAG = "${BUILD_NUMBER}"
-        MANIFEST_REPO = "https://github.com/rawdaessamrou/CloudDevOpsProject.git"
+        AWS_REGION      = "us-east-1"
+        ECR_REPO        = "781978598486.dkr.ecr.us-east-1.amazonaws.com/clouddevops-app"
+        IMAGE_NAME      = "${ECR_REPO}"
+        IMAGE_TAG       = "${BUILD_NUMBER}"
+        MANIFEST_REPO   = "https://github.com/rawdaessamrou/CloudDevOpsProject.git"
+        CLUSTER_NAME    = "clouddevops-cluster"
     }
 
     stages {
@@ -30,7 +33,14 @@ pipeline {
         stage('Push Image') {
             steps {
                 script {
-                    dockerUtils.pushImage("${IMAGE_NAME}:${IMAGE_TAG}")
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding',
+                        credentialsId: 'aws-credentials']]) {
+                        sh """
+                            aws ecr get-login-password --region ${AWS_REGION} | \
+                            docker login --username AWS --password-stdin ${ECR_REPO}
+                        """
+                        dockerUtils.pushImage("${IMAGE_NAME}:${IMAGE_TAG}")
+                    }
                 }
             }
         }
