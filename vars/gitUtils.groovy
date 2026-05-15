@@ -8,7 +8,7 @@ def pushManifestChanges() {
             cd CloudDevOpsProject
             git config user.email "rawdaessamrou@example.com"
             git config user.name "rawdaessamrou"
-            git add kubernates/deployment.yaml
+            git add Kubernates/deployment.yaml
             git commit -m "ci: update image tag to ${BUILD_NUMBER}" || true
             git push https://\$GIT_USER:\$GIT_PASS@github.com/rawdaessamrou/CloudDevOpsProject.git HEAD:main
         """
