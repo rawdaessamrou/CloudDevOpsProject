@@ -39,7 +39,7 @@ The infrastructure is fully provisioned with Terraform across four modules:
 
 Terraform remote state is stored in an S3 bucket with versioning enabled.
 
-![Terraform Outputs — VPC, subnets, EKS endpoint, ECR URL, Jenkins IP](screenshots/TerraformOutputs.png)
+![Terraform Outputs — VPC, subnets, EKS endpoint, ECR URL, Jenkins IP](Screenshots/TerraformOutputs.png)
 
 ---
 
@@ -120,7 +120,7 @@ Configuration management is handled by three Ansible roles applied to the Jenkin
 - **jenkins** — imports the Jenkins GPG key from the Ubuntu keyserver, adds the official Jenkins apt repository, installs Jenkins, and starts the service.
 - **packages** — installs Docker CE, adds the jenkins user to the docker group, and installs Trivy for image vulnerability scanning.
 
-![Ansible Playbook — all 24 tasks completed, 8 changed, 0 failed](screenshots/AnsiblePlaybook.png)
+![Ansible Playbook — all 24 tasks completed, 8 changed, 0 failed](Screenshots/AnsiblePlaybook.png)
 
 ---
 
