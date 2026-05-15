@@ -26,6 +26,6 @@ spec:
 
       containers:
         - name: python-app
-          image: rawdaessamrou/python-app:9
+          image: 781978598486.dkr.ecr.us-east-1.amazonaws.com/clouddevops-app:12
           ports:
             - containerPort: 5000
