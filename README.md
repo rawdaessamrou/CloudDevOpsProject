@@ -1,4 +1,4 @@
-# CloudDevOpsProject
+# End-to-End DevOps Pipeline on AWS
 
 A full end-to-end DevOps project implementing a complete CI/CD pipeline on AWS, built as the graduation project for the NTI DevOps Training Track in collaboration with iVolve Technologies.
 
